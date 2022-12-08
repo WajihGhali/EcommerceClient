@@ -4,6 +4,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import Badge from '@material-ui/core/Badge';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { mobile } from '../resposive';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   height: 60px;
@@ -28,8 +30,7 @@ const Input = styled.div`
   font-size: 14px;
   cursor: pointer;
   border: none;
-  ${mobile({width: "50px"})}
-
+  ${mobile({ width: '50px' })}
 `;
 
 const Center = styled.div`
@@ -42,14 +43,13 @@ const Right = styled.div`
   display: flex;
   align-item: center;
   justify-content: flex-end;
-  ${mobile({flex:2 ,jusitfyContent: "center"})}
+  ${mobile({ flex: 2, jusitfyContent: 'center' })}
 `;
 
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
-  ${mobile({display: "none"})}
-
+  ${mobile({ display: 'none' })}
 `;
 
 const SearchContainer = styled.div`
@@ -63,24 +63,27 @@ const SearchContainer = styled.div`
 
 const Logo = styled.h1`
   font-weight: bold;
-  ${mobile({fontSize: "24px"})}
+  ${mobile({ fontSize: '24px' })}
 `;
 
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
-  ${mobile({fontSize: "12px", marginLeft:"10px" })}
+  ${mobile({ fontSize: '12px', marginLeft: '10px' })}
 `;
 
 function Navbar() {
+  const quantity = useSelector((state) => state.cart.quantity);
+  console.log(quantity);
+
   return (
     <Container>
       <Wrapper>
         <Left>
           <Language>EN</Language>
           <SearchContainer>
-            <Input placeholder= "Search" />
+            <Input placeholder="Search" />
             <SearchIcon style={{ color: 'gray', fontSize: '16px' }} />
           </SearchContainer>
         </Left>
@@ -90,11 +93,13 @@ function Navbar() {
         <Right>
           <MenuItem>Register</MenuItem>
           <MenuItem>Sign in</MenuItem>
-          <MenuItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlinedIcon />
-            </Badge>
-          </MenuItem>
+          <Link to="/cart">
+            <MenuItem>
+              <Badge badgeContent={quantity} color="primary">
+                <ShoppingCartOutlinedIcon />
+              </Badge>
+            </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>
